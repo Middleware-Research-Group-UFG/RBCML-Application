@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Session - {{ session }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="section panel" id="panel">
+      <span id="session-name">{{ session }}</span>
+      <span id="user-name">{{ user }}</span>
+      <span id="user-role">{{ role }}</span>
+
+      <div class="audio-video-container">
+        <video class="video" id="user-video" autoplay playsinline></video>
+        <audio class="audio" id="user-audio" autoplay></audio>
+        <div class="audio-video-ui">
+          <button class="audio-button" id="user-audio-ui" onclick="toggleUserPhone()"></button>
+          <button class="video-button" id="user-video-ui" onclick="toggleUserCamera()"></button>
+        </div>
+      </div>
+
+      
+      <div id="connections" style="display: none;">
+        <h3>Conexões</h3>
+        <!-- <span class="connection selected" id="connection-C1" onclick="changeConnection('connection-C1')">C1</span>
+        <span class="connection" id="connection-C2" onclick="changeConnection('connection-C1')">C2</span> -->
+      </div>
+      <hr>
+      <div id="users">
+        <h3>Usuários</h3>
+        <div class="users" id="users-list">
+          <!-- <span class="user-name">Bob</span>
+          <span class="user-role">Médico</span>
+          <span class="user-name">Caesar</span>
+          <span class="user-role">Enfermeiro</span> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="section videos" id="videos">
+      <!-- <div class="audio-video-container">
+        <video class="video" id="other-video" autoplay playsinline></video>
+        <audio class="audio" autoplay></audio>
+        <h3 class="peer-name">Alice</h3>
+      </div> -->
+    </div>
+
+    <div class="section chat" id="chat">
+      <div class="messages" id="messages">
+        <!-- <div class="message">
+          <span class="sender">Alice</span>
+          <span>Hello! How are you?</span>
+        </div>
+
+        <div class="message">
+          <span class="sender">Alice</span>
+          <span>Hello! How are you?</span>
+        </div> -->
+      </div>
+  
+      <div class="input-area">
+        <textarea placeholder="Insira sua mensagem..." id="input-area"></textarea>
+        <button id="send-button" onclick="send()"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const user = "{{ user }}";
+    const session = "{{ session }}";
+
+    const socket = io({autoConnect: false, "sync disconnect on unload": true});
+    socket.connect();
+
+    socket.emit("join", {user: user, session: session});
+
+    socket.on("setup_connections", data => { setupConnections(data); })
+    socket.on("setup_user_capabilities", data => { setupUserCapabilities(data); })
+
+    
+  </script>
+  <script src="{{ url_for('static', filename='scripts/connections.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/userMedia.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/channel.js') }}"></script>
+{% endblock %}
