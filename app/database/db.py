@@ -1,7 +1,9 @@
 import sqlite3
+from pathlib import Path
 
+db_path = Path(__file__).parent/"rbcml.db"
 
-def insert(data, table, db="rbcml.db"):
+def insert(data, table, db=db_path):
     with sqlite3.connect(db) as connection:
         connection.execute("PRAGMA foreign_key = ON");
         cursor = connection.cursor()
@@ -13,7 +15,7 @@ def insert(data, table, db="rbcml.db"):
         except:
             return (400, "Bad request!")
 
-def search(data, key, table, db="rbcml.db"):
+def search(data, key, table, db=db_path):
     with sqlite3.connect(db) as connection:
         cursor = connection.cursor()
         query = f"""SELECT * FROM {table}
