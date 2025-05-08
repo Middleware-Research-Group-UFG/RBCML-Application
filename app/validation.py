@@ -1,5 +1,4 @@
 import re
-import json
 
 
 def validate_string(input_str):
