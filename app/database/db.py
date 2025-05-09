@@ -26,3 +26,6 @@ def search(data, key, table, db=db_path):
         except:
             return []
 
+def exists(data, key, table, db=db_path):
+    return len(search(data, key, table, db)) > 0
+
