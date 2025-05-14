@@ -49,3 +49,9 @@ def view_create_role():
            return "Role created successfully"
         else:
            return "Role not created"
+
+@main.route('/signup', methods=['GET', 'POST'])
+def view_signup():
+    if request.method == 'GET':
+        return render_template('signup.html')
+    
