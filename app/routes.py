@@ -3,6 +3,9 @@ from flask import Blueprint, render_template, redirect, request
 from .RBCMLModel import RBCMLModel
 from .events import get_user_role
 
+import sqlite3
+import validation as v
+
 main = Blueprint('main', __name__)
 
 
@@ -54,4 +57,49 @@ def view_create_role():
 def view_signup():
     if request.method == 'GET':
         return render_template('signup.html')
-    
+    else:
+        tag = request.form.get('tag')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        if not all([tag, name, email, password]):
+            return "All fields are required", 400
+
+        if not all(v.validate_string(field) for field in [tag, name, email, password]):
+            return "Invalid characters in input fields", 400
+
+        length_checks = [
+            (tag, 20, "Tag"),
+            (name, 64, "Name"),
+            (email, 254, "Email"),
+            (password, 128, "Password")
+        ]
+        
+        for value, max_len, field_name in length_checks:
+            if len(value) > max_len:
+                return f"{field_name} exceeds maximum length of {max_len} characters", 400
+
+        conn = None
+        try:
+            conn = sqlite3.connect('database.db')
+            cursor = conn.cursor()
+
+            cursor.execute('SELECT Tag FROM User WHERE Tag = ?', (tag,))
+            if cursor.fetchone():
+                return "User tag already exists", 400
+
+            cursor.execute('''
+                INSERT INTO User (Tag, Name, Email, Password)
+                VALUES (?, ?, ?, ?)
+            ''', (tag, name, email, password))
+            conn.commit()
+            return "User created successfully"
+        
+        except sqlite3.IntegrityError as e:
+            return f"Database constraint error: {str(e)}", 400
+        except sqlite3.Error as e:
+            return f"Database error: {str(e)}", 500
+        finally:
+            if conn:
+                conn.close()
