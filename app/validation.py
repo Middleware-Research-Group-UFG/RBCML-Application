@@ -49,7 +49,7 @@ def validate_model(input_model):
 def validate_user(input_user):
     valid_keys = {
             "tag": 20,
-            "name" 64,
+            "name": 64,
             "email": 254,
             "password": 128
     }
