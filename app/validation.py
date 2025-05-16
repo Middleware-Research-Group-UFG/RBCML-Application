@@ -54,11 +54,13 @@ def validate_user(input_user):
             "password": 128
     }
 
-    return len(input_user) == 4 and
-           all(
+    return (
+            len(input_user) == 4 and
+            all(
                 key in input_user and
                 len(input_user[key]) <= max_len and
                 validate_string(input_user[key])
                 for key, max_len in valid_keys.items()
-               )
+            )
+    )
 
