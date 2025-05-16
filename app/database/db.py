@@ -11,9 +11,9 @@ def insert(data, table, db=db_path):
                         VALUES {tuple(data.values())}"""
         try:
             cursor.execute(query)
-            return (201, "Created")
+            return "Created", 201
         except:
-            return (400, "Bad request!")
+            return "Bad request!", 400
 
 def search(data, key, table, db=db_path):
     with sqlite3.connect(db) as connection:
