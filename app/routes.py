@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, redirect, request
 
 from .RBCMLModel import RBCMLModel
 from .events import get_user_role
+from .validation import validate_user
+from .database import db
 
 main = Blueprint('main', __name__)
 
@@ -49,3 +51,20 @@ def view_create_role():
            return "Role created successfully"
         else:
            return "Role not created"
+
+@main.route('/signup', methods=['GET', 'POST'])
+def view_signup():
+    method = request.method
+    if method == 'GET':
+        return render_template('TEMPORARYsignup.html')
+    elif method == 'POST':
+        user = request.form.to_dict(flat=True)
+        if validate_user(user):
+            if not db.exists(user["tag"], "Tag", "User"):
+                return db.insert(user, "User")
+            return "User already exists.", 400
+        
+        return "Invalid user.", 400
+
+    return "Method '{method}' is not allowed."
+

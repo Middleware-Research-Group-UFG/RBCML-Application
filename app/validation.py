@@ -44,4 +44,23 @@ def validate_model(input_model):
         if not model_connection_is_valid(roles, connection_key, connection_value):
             return False
 
-    return True  
+    return True
+
+def validate_user(input_user):
+    valid_keys = {
+            "tag": 20,
+            "name": 64,
+            "email": 254,
+            "password": 128
+    }
+
+    return (
+            len(input_user) == 4 and
+            all(
+                key in input_user and
+                len(input_user[key]) <= max_len and
+                validate_string(input_user[key])
+                for key, max_len in valid_keys.items()
+            )
+    )
+
