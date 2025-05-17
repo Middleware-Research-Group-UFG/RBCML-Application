@@ -12,5 +12,7 @@ def create(payload):
 def decode(token, options):
     with open(path/"keys/public_key.pem", "r") as file:
         public_key = file.read()
-        return jwt.decode(token, public_key, "RS256", options)
-
+        try:
+            return jwt.decode(token, public_key, "RS256", options)
+        except:
+            return {}
