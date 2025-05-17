@@ -63,8 +63,5 @@ def view_signup():
             if not db.exists(user["tag"], "Tag", "User"):
                 return db.insert(user, "User")
             return "User already exists.", 400
-        
         return "Invalid user.", 400
-
-    return "Method '{method}' is not allowed."
 
