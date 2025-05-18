@@ -1,6 +1,7 @@
 import re
+import json
 from datetime import datetime
-
+from .database import db
 
 def validate_string(input_str):
     pattern = re.compile(r'^[a-zA-Z0-9 _.@]+$')
@@ -71,3 +72,40 @@ def date_is_valid(date):
     except:
         return False
 
+def session_participants_are_valid(participants, model_id):
+    for participant in participants.keys():
+        if not validate_string(participant) or not db.exists(participant, 'Tag', 'User'):
+            return False
+    
+    model_definition = json.loads( db.search(model_id, 'ModelId', 'Model')[0][3] )
+    model_roles = model_definition['roles']
+    
+    for roles in participants.values():
+        if not isinstance(roles, list):
+            return False
+        for role in roles:
+            if role not in model_roles:
+                return False
+    
+    return True
+
+def validate_session(input_session):
+    valid_keys = [
+            "creator",
+            "model_id",
+            "start_date",
+            "expiration_date",
+            "participants"
+    ]
+
+    return (
+            len(input_session) == 5 and
+            all(key in valid_keys for key in input_session.keys()) and
+            validate_string(input_session['creator']) and
+            db.exists(input_session['creator'], 'Tag', 'User') and
+            isinstance(input_session['model_id'], int) and
+            db.exists(input_session['model_id'], 'ModelId', 'Model') and
+            date_is_valid(input_session['start_date']) and
+            date_is_valid(input_session['expiration_date']) and
+            session_participants_are_valid(input_session['participants'], input_session['model_id'])
+    )
