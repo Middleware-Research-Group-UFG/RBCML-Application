@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 
 def validate_string(input_str):
@@ -25,7 +26,6 @@ def model_connection_is_valid(roles, key, value):
             return False
     
     return True
-
 
 def validate_model(input_model):    
     if len(input_model) != 2 or "roles" not in input_model or "connections" not in input_model:
@@ -63,4 +63,11 @@ def validate_user(input_user):
                 for key, max_len in valid_keys.items()
             )
     )
+
+def date_is_valid(date):
+    try:
+        datetime.fromisoformat(date)
+        return True
+    except:
+        return False
 
