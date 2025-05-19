@@ -14,7 +14,15 @@ def view_ping():
 
 @main.route('/')
 def view_index():
-    return redirect('/login')
+    return redirect('/home')
+
+@main.route('/home')
+def view_home(): 
+    return render_template('home.html')
+
+@main.route('/cadastro')
+def view_cadastro():
+    return render_template('cadastro.html')
 
 @main.route('/login', methods=['GET', 'POST'])
 def view_login():
@@ -64,4 +72,3 @@ def view_signup():
                 return db.insert(user, "User")
             return "User already exists.", 400
         return "Invalid user.", 400
-
