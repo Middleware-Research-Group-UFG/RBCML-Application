@@ -99,13 +99,11 @@ def view_create_model():
                 json_content = json_file.read().decode('utf-8')
 
                 data = {
-                    "id": guid,
-                    "name": name,
-                    "description": description,
-                    "jsonModel": json_content,
+                    "Id": guid,
+                    "Name": name,
+                    "Description": description,
+                    "Definition": json_content,
                 }
                 return db.insert(data, "Model")
             return "Model name already exists.", 400
         return "Invalid Model format.", 400
-
-        
