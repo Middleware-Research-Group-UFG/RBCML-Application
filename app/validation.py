@@ -1,7 +1,9 @@
 import re
 import json
 from datetime import datetime
+
 from .database import db
+from .user import User
 
 def validate_string(input_str):
     pattern = re.compile(r'^[a-zA-Z0-9 _.@]+$')
@@ -73,7 +75,7 @@ def date_is_valid(date):
         return False
 
 def session_participants_are_valid(participants, model_id):
-    for participant in participants.keys():
+    for participant in participants:
         if not validate_string(participant) or not db.exists(participant, 'Tag', 'User'):
             return False
     
@@ -100,7 +102,7 @@ def validate_session(input_session):
 
     return (
             len(input_session) == 5 and
-            all(key in valid_keys for key in input_session.keys()) and
+            all(key in valid_keys for key in input_session) and
             validate_string(input_session['creator']) and
             db.exists(input_session['creator'], 'Tag', 'User') and
             isinstance(input_session['model_id'], int) and
@@ -109,3 +111,18 @@ def validate_session(input_session):
             date_is_valid(input_session['expiration_date']) and
             session_participants_are_valid(input_session['participants'], input_session['model_id'])
     )
+
+def validate_login(input_login):
+    valid_keys = {
+            "tag": 20
+            "password": 128
+    }
+
+    return (
+            len(input_login) == 2 and
+            all(key in valid_key for key in input_login) and
+            all(validate_string(value) for value in input_login.values()) and
+            db.exists(input_login['tag'], 'tag', 'User') and
+            User.login_match(input_login)
+    )
+
