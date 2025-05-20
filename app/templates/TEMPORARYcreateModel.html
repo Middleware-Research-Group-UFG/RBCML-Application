@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Model insertion form</title>
+</head>
+<body>
+    <h2>Model insertion form</h2>
+    <form action="/createModel" method="POST" enctype="multipart/form-data">
+        <label for="name">Model name:</label><br>
+        <input type="text" id="name" name="name" pattern="[a-zA-Z _.@]+" maxlength="64" required><br><br>
+
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description" pattern="[a-zA-Z _.@]+" maxlength="256" required><br><br>
+
+        <label for="jsonFile">Insira o modelo:</label><br>
+        <input type="file" id="jsonModel" name="jsonModel" accept=".json" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
