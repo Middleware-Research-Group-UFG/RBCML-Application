@@ -11,5 +11,5 @@ class User:
         user_data = db.search(input_login['tag'], 'tag', 'User')[0]
         return (
                 input_login['tag'] == user_data[0] and 
-                user_login['password'] == user_data[3]
+                input_login['password'] == user_data[3]
                 )
