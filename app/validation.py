@@ -114,13 +114,13 @@ def validate_session(input_session):
 
 def validate_login(input_login):
     valid_keys = {
-            "tag": 20
+            "tag": 20,
             "password": 128
     }
 
     return (
             len(input_login) == 2 and
-            all(key in valid_key for key in input_login) and
+            all(key in valid_keys for key in input_login) and
             all(validate_string(value) for value in input_login.values()) and
             db.exists(input_login['tag'], 'tag', 'User') and
             User.login_match(input_login)
