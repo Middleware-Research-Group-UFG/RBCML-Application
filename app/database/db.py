@@ -7,12 +7,17 @@ def insert(data, table, db=db_path):
     with sqlite3.connect(db) as connection:
         connection.execute("PRAGMA foreign_key = ON");
         cursor = connection.cursor()
-        query = f"""INSERT INTO {table} {tuple(data.keys())}
-                        VALUES {tuple(data.values())}"""
+        if len(data) == 1:
+            query = f"""INSERT INTO {table} ({list(data.keys())[0]})
+                            VALUES ('{list(data.values())[0]}')"""
+        else:
+            query = f"""INSERT INTO {table} {tuple(data.keys())}
+                            VALUES {tuple(data.values())}"""
         try:
             cursor.execute(query)
             return "Created", 201
-        except:
+        except Exception as e:
+            print(query,'\n',e)
             return "Bad request!", 400
 
 def search(data, key, table, db=db_path):
