@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, make_response
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -74,16 +74,18 @@ def view_temporary_login():
     else:
         login = request.form.to_dict(flat=True)
         if validate_login(login):
-            date_info = {
+            payload = {
+                'tag': login['tag'],
                 'iat': datetime.now(ZoneInfo('America/Sao_Paulo')),
                 'nbf': datetime.now(ZoneInfo('America/Sao_Paulo')),
                 'exp': datetime.now(ZoneInfo('America/Sao_Paulo')) + timedelta(days=1)
             }
-            payload = login | date_info
             jwt = token_handler.create(payload)
             msg, status = db.insert({'token': jwt}, 'JWT')
             if status == 201:
-                return jwt, 200
+                response = make_response(("Successfully authenticated", 200))
+                response.set_cookie('jwt', jwt, expires=payload['exp'], secure=True, httponly=True, samesite='Strict')
+                return response
             return "Something went wrong while creating JWT", 400
         return 'Invalid login', 400
 
