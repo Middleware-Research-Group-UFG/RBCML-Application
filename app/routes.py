@@ -89,3 +89,9 @@ def view_temporary_login():
             return "Something went wrong while creating JWT", 400
         return 'Invalid login', 400
 
+@main.route('/logout')
+def view_logout():
+    response = redirect('/')
+    response.delete_cookie('jwt')
+    return response
+
