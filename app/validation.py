@@ -127,5 +127,8 @@ def validate_login(input_login):
             User.login_match(input_login)
     )
 
-def validate_jwt(token):
-    return validate_string(token) and decode(token)
+def validate_jwt(token, options):
+    if validate_string(token):
+        return token_handler.decode(token, options)
+    return {}
+
