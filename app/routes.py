@@ -73,6 +73,8 @@ def view_signup():
 @main.route('/temporary_login', methods=['GET','POST'])
 def view_temporary_login():
     if request.method == 'GET':
+        if request.cookies.get('jwt'):
+            return redirect('/welcome')
         return render_template('TEMPORARYlogin.html')
     else:
         login = request.form.to_dict(flat=True)
