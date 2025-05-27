@@ -7,6 +7,7 @@ from .RBCMLModel import RBCMLModel
 from .events import get_user_role
 from .validation import *
 from .database import db
+from .user import User
 
 main = Blueprint('main', __name__)
 
@@ -83,10 +84,10 @@ def view_temporary_login():
             jwt = token_handler.create(payload)
             msg, status = db.insert({'token': jwt}, 'JWT')
             if status == 201:
-                response = make_response(("Successfully authenticated", 200))
+                response = make_response(('Successfully authenticated', 200))
                 response.set_cookie('jwt', jwt, expires=payload['exp'], secure=True, httponly=True, samesite='Strict')
                 return response
-            return "Something went wrong while creating JWT", 400
+            return 'Something went wrong while creating JWT', 400
         return 'Invalid login', 400
 
 @main.route('/logout')
@@ -94,4 +95,17 @@ def view_logout():
     response = redirect('/')
     response.delete_cookie('jwt')
     return response
+
+@main.route('/welcome', methods=['GET'])
+def view_welcome():
+    generic_response = redirect('/')
+    token = request.cookies.get('jwt')
+    if token:
+        payload = validate_jwt(token, token_handler.generate_default_decode_options(['tag']))
+        if payload:
+            user_info = db.search(payload['tag'], 'tag', 'User')[0][:3]
+            user = User(*user_info)
+            return render_template('TEMPORARYwelcome.html', user=user)
+        generic_response.delete_cookie('jwt')
+    return generic_response
 
