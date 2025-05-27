@@ -97,6 +97,9 @@ def view_temporary_login():
 @main.route('/logout')
 def view_logout():
     response = redirect('/')
+    token = request.cookies.get('jwt')
+    if token and validate_jwt(token, token_handler.generate_default_decode_options(['tag'])):
+        db.delete(token, 'Token', 'JWT') 
     response.delete_cookie('jwt')
     return response
 
