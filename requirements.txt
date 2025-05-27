@@ -2,4 +2,3 @@ flask
 flask_socketio
 pyjwt
 cryptography
-cuid2

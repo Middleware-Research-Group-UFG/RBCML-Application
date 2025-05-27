@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, request
 
 import json
-import cuid2
 
 from .RBCMLModel import RBCMLModel
 from .events import get_user_role
@@ -73,35 +72,22 @@ def view_create_model():
     if request.method == 'GET':
         return render_template('TEMPORARYcreateModel.html')
     else:
-        name = request.form.get('name')
-        description = request.form.get('description')
-
-        if not validate_string(name):
-            return "Invalid model name.", 400
-
-        if not validate_string(description):
-            return "Invalid description.", 400
-
+        model = request.form.to_dict(flat=True)
         json_file = request.files.get('jsonModel')
-        if not json_file or json_file.filename == '':
-            return "File is empty.", 400
-
+        
         try:
             model_data = json.load(json_file)
         except json.JSONDecodeError:
             return "Unable to decode file.", 400
 
-        if validate_model(model_data):
-            if not db.exists(name, "name", "Model"):
-                guid = cuid2.Cuid().generate()
-
+        if validate_model(model,model_data):
+            if not db.exists(model["name"], "name", "Model"):
                 json_file.seek(0)
                 json_content = json_file.read().decode('utf-8')
 
                 data = {
-                    "Id": guid,
-                    "Name": name,
-                    "Description": description,
+                    "Name": model["name"],
+                    "Description": model["description"],
                     "Definition": json_content,
                 }
                 return db.insert(data, "Model")
