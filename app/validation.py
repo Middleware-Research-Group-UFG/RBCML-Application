@@ -4,10 +4,10 @@ from datetime import datetime
 
 from .database import db
 from .user import User
-from .token_handler import decode
+from . import token_handler 
 
 def validate_string(input_str):
-    pattern = re.compile(r'^[a-zA-Z0-9 _.@]+$')
+    pattern = re.compile(r'^[a-zA-Z0-9 _.@-]+$')
     return pattern.match(input_str)
 
 def keys_are_sorted(keys):
@@ -129,6 +129,8 @@ def validate_login(input_login):
 
 def validate_jwt(token, options):
     if validate_string(token):
+        print("string valida")
         return token_handler.decode(token, options)
+    print("string invalida")
     return {}
 
