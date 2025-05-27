@@ -34,3 +34,14 @@ def search(data, key, table, db=db_path):
 def exists(data, key, table, db=db_path):
     return len(search(data, key, table, db)) > 0
 
+def delete(data, key, table, db=db_path):
+    with sqlite3.connect(db) as connection:
+        cursor = connection.cursor()
+        query = f"""DELETE FROM {table}
+                        WHERE {key} = '{data}'"""
+        try:
+            cursor.execute(query)
+            return "Deleted", 200
+        except:
+            return "Bad request", 400
+
