@@ -18,6 +18,8 @@ def view_ping():
 
 @main.route('/')
 def view_index():
+    if request.cookies.get('jwt'):
+        return redirect('/welcome')
     return redirect('/temporary_login')
 
 @main.route('/login', methods=['GET', 'POST'])
