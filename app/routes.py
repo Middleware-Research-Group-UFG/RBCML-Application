@@ -88,7 +88,7 @@ def view_temporary_login():
             jwt = token_handler.create(payload)
             msg, status = db.insert({'token': jwt}, 'JWT')
             if status == 201:
-                response = make_response(('Successfully authenticated', 200))
+                response = redirect('/welcome')
                 response.set_cookie('jwt', jwt, expires=payload['exp'], secure=True, httponly=True, samesite='Strict')
                 return response
             return 'Something went wrong while creating JWT', 400
