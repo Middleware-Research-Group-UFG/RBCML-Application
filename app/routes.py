@@ -86,20 +86,14 @@ def view_temporary_login():
                 'exp': datetime.now(ZoneInfo('America/Sao_Paulo')) + timedelta(days=1)
             }
             jwt = token_handler.create(payload)
-            msg, status = db.insert({'token': jwt}, 'JWT')
-            if status == 201:
-                response = redirect('/welcome')
-                response.set_cookie('jwt', jwt, expires=payload['exp'], secure=True, httponly=True, samesite='Strict')
-                return response
-            return 'Something went wrong while creating JWT', 400
+            response = redirect('/welcome')
+            response.set_cookie('jwt', jwt, expires=payload['exp'], secure=True, httponly=True, samesite='Strict')
+            return response
         return 'Invalid login', 400
 
 @main.route('/logout')
 def view_logout():
     response = redirect('/')
-    token = request.cookies.get('jwt')
-    if token and validate_jwt(token, token_handler.generate_default_decode_options(['tag'])):
-        db.delete(token, 'Token', 'JWT') 
     response.delete_cookie('jwt')
     return response
 
@@ -108,7 +102,7 @@ def view_welcome():
     generic_response = redirect('/')
     token = request.cookies.get('jwt')
     if token:
-        payload = validate_jwt(token, token_handler.generate_default_decode_options(['tag']))
+        payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
         if payload:
             user_info = db.search(payload['tag'], 'tag', 'User')[0][:3]
             user = User(*user_info)
