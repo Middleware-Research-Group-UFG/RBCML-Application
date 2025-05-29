@@ -4,7 +4,6 @@ from datetime import datetime
 
 from .database import db
 from .user import User
-from . import token_handler 
 
 def validate_string(input_str):
     pattern = re.compile(r'^[a-zA-Z0-9 _.@-]+$')
@@ -126,11 +125,4 @@ def validate_login(input_login):
             db.exists(input_login['tag'], 'tag', 'User') and
             User.login_match(input_login)
     )
-
-def validate_jwt(token, options):
-    if validate_string(token):
-        print("string valida")
-        return token_handler.decode(token, options)
-    print("string invalida")
-    return {}
 
