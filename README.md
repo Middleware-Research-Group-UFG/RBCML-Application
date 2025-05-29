@@ -3,7 +3,7 @@ This application proceeds with the work done by [Victor Netto](https://github.co
   <details>
   <summary>  <strong> New features </strong> </summary>
     
-- **Database:** to store models, sessions users and tokens.
+- **Database:** to store models, sessions and users.
   ![Schema](./media/schema.png)
 - **Authentication:** to securely identify who is accessing the application.
 - **Invitation system:** to invite users to be part of a session. 
