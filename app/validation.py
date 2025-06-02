@@ -30,7 +30,24 @@ def model_connection_is_valid(roles, key, value):
     
     return True
 
-def validate_model(input_model):    
+def validate_model(input_model, json_file):
+    valid_keys = {
+        "name": 64,
+        "description": 256
+    }
+
+    return (
+            len(input_model) == 2 and
+            all(
+                key in input_model and
+                len(input_model[key]) <= max_len and
+                validate_string(input_model[key]) and
+                validate_model_json(json_file)
+                for key, max_len in valid_keys.items()
+            )
+    )
+
+def validate_model_json(input_model):    
     if len(input_model) != 2 or "roles" not in input_model or "connections" not in input_model:
         return False
     if not isinstance(input_model["roles"], list) or not isinstance(input_model["connections"], dict):

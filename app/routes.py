@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, make_response
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-
+import json
 from . import token_handler
 from .RBCMLModel import RBCMLModel
 from .events import get_user_role
@@ -110,3 +110,29 @@ def view_welcome():
         generic_response.delete_cookie('jwt')
     return generic_response
 
+@main.route('/createModel', methods=['GET', 'POST'])
+def view_create_model():
+    if request.method == 'GET':
+        return render_template('TEMPORARYcreateModel.html')
+    else:
+        model = request.form.to_dict(flat=True)
+        json_file = request.files.get('jsonModel')
+        
+        try:
+            model_data = json.load(json_file)
+        except json.JSONDecodeError:
+            return "Unable to decode file.", 400
+
+        if validate_model(model,model_data):
+            if not db.exists(model["name"], "name", "Model"):
+                json_file.seek(0)
+                json_content = json_file.read().decode('utf-8')
+
+                data = {
+                    "Name": model["name"],
+                    "Description": model["description"],
+                    "Definition": json_content,
+                }
+                return db.insert(data, "Model")
+            return "Model name already exists.", 400
+        return "Invalid Model format.", 400
