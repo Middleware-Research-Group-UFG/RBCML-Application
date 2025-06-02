@@ -112,27 +112,34 @@ def view_welcome():
 
 @main.route('/createModel', methods=['GET', 'POST'])
 def view_create_model():
-    if request.method == 'GET':
-        return render_template('TEMPORARYcreateModel.html')
-    else:
-        model = request.form.to_dict(flat=True)
-        json_file = request.files.get('jsonModel')
-        
-        try:
-            model_data = json.load(json_file)
-        except json.JSONDecodeError:
-            return "Unable to decode file.", 400
+    generic_response = redirect('/temporary_login')
+    token = request.cookies.get('jwt')
+    if token:
+        payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
+        if payload:
+            if request.method == 'GET':
+                return render_template('TEMPORARYcreateModel.html')
+            else:
+                model = request.form.to_dict(flat=True)
+                json_file = request.files.get('jsonModel')
+                
+                try:
+                    model_data = json.load(json_file)
+                except json.JSONDecodeError:
+                    return "Unable to decode file.", 400
 
-        if validate_model(model,model_data):
-            if not db.exists(model["name"], "name", "Model"):
-                json_file.seek(0)
-                json_content = json_file.read().decode('utf-8')
+                if validate_model(model,model_data):
+                    if not db.exists(model["name"], "name", "Model"):
+                        json_file.seek(0)
+                        json_content = json_file.read().decode('utf-8')
 
-                data = {
-                    "Name": model["name"],
-                    "Description": model["description"],
-                    "Definition": json_content,
-                }
-                return db.insert(data, "Model")
-            return "Model name already exists.", 400
-        return "Invalid Model format.", 400
+                        data = {
+                            "Name": model["name"],
+                            "Description": model["description"],
+                            "Definition": json_content,
+                        }
+                        return db.insert(data, "Model")
+                    return "Model name already exists.", 400
+                return "Invalid Model format.", 400
+        generic_response.delete_cookie('jwt')
+    return generic_response
