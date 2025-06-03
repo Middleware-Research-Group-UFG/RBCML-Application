@@ -1,11 +1,15 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, make_response
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import json
 
+from . import token_handler
 from .RBCMLModel import RBCMLModel
 from .events import get_user_role
-from .validation import validate_user, validate_string, validate_model
+from .validation import *
 from .database import db
+from .user import User
 
 main = Blueprint('main', __name__)
 
@@ -16,7 +20,9 @@ def view_ping():
 
 @main.route('/')
 def view_index():
-    return redirect('/login')
+    if request.cookies.get('jwt'):
+        return redirect('/welcome')
+    return redirect('/temporary_login')
 
 @main.route('/login', methods=['GET', 'POST'])
 def view_login():
@@ -56,10 +62,9 @@ def view_create_role():
 
 @main.route('/signup', methods=['GET', 'POST'])
 def view_signup():
-    method = request.method
-    if method == 'GET':
+    if request.method == 'GET':
         return render_template('TEMPORARYsignup.html')
-    elif method == 'POST':
+    else:
         user = request.form.to_dict(flat=True)
         if validate_user(user):
             if not db.exists(user["tag"], "Tag", "User"):
@@ -93,3 +98,44 @@ def view_create_model():
                 return db.insert(data, "Model")
             return "Model name already exists.", 400
         return "Invalid Model format.", 400
+
+@main.route('/temporary_login', methods=['GET','POST'])
+def view_temporary_login():
+    if request.method == 'GET':
+        if request.cookies.get('jwt'):
+            return redirect('/welcome')
+        return render_template('TEMPORARYlogin.html')
+    else:
+        login = request.form.to_dict(flat=True)
+        if validate_login(login):
+            payload = {
+                'tag': login['tag'],
+                'iat': datetime.now(ZoneInfo('America/Sao_Paulo')),
+                'nbf': datetime.now(ZoneInfo('America/Sao_Paulo')),
+                'exp': datetime.now(ZoneInfo('America/Sao_Paulo')) + timedelta(days=1)
+            }
+            jwt = token_handler.create(payload)
+            response = redirect('/welcome')
+            response.set_cookie('jwt', jwt, expires=payload['exp'], secure=True, httponly=True, samesite='Strict')
+            return response
+        return 'Invalid login', 400
+
+@main.route('/logout')
+def view_logout():
+    response = redirect('/')
+    response.delete_cookie('jwt')
+    return response
+
+@main.route('/welcome', methods=['GET'])
+def view_welcome():
+    generic_response = redirect('/')
+    token = request.cookies.get('jwt')
+    if token:
+        payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
+        if payload:
+            user_info = db.search(payload['tag'], 'tag', 'User')[0][:3]
+            user = User(*user_info)
+            return render_template('TEMPORARYwelcome.html', user=user)
+        generic_response.delete_cookie('jwt')
+    return generic_response
+

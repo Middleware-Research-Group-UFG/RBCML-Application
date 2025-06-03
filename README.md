@@ -4,8 +4,9 @@ This application proceeds with the work done by [Victor Netto](https://github.co
   <summary>  <strong> New features </strong> </summary>
     
 - **Database:** to store models, sessions and users.
+  ![Schema](./media/schema.png)
 - **Authentication:** to securely identify who is accessing the application.
-- **Invitation sistem:** to invite users to be part of a session. 
+- **Invitation system:** to invite users to be part of a session. 
 
 </details>
 

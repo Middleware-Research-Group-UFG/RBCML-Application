@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <a href="/signup" style="float: right;">Sign up</a>
+    <form action="/temporary_login" method="POST">
+        <label for="tag">Tag:</label><br>
+        <input type="text" id="Tag" name="tag" pattern="[a-zA-Z _.@]+" maxlength="20" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="Password" name="password" pattern="[a-zA-Z _.@]+" maxlength="128" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
