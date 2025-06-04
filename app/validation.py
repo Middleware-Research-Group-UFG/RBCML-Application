@@ -58,8 +58,6 @@ def validate_model_json(input_model):
         return False
 
     connections = input_model["connections"]
-    if "-".join(roles) not in connections:
-        return False
     for connection_key, connection_value in connections.items():
         if not model_connection_is_valid(roles, connection_key, connection_value):
             return False
