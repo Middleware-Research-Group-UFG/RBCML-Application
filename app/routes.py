@@ -130,8 +130,7 @@ def view_create_model():
 
                 if validate_model(model,model_data):
                     if not db.exists(model["name"], "name", "Model"):
-                        json_file.seek(0)
-                        json_content = json_file.read().decode('utf-8')
+                        json_content = json.dumps(model_data)
 
                         data = {
                             "Name": model["name"],
