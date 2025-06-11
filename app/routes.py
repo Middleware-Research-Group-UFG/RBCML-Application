@@ -163,8 +163,8 @@ def view_create_session():
                     return "Unable to decode participants file.", 400
                 
                 data = {
-                        "creator": payload['tag'],
-                        "id": int(session["modelid"]),
+                        "Creator": payload['tag'],
+                        "Id": int(session["modelid"]),
                         "StartDate": session["startdate"],
                         "ExpirationDate": session["expirationdate"],
                         "participants": participants

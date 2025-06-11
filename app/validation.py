@@ -111,23 +111,23 @@ def session_participants_are_valid(json_participants, id):
 
 def validate_session(input_session):
     valid_keys = [
-            "creator",
-            "model_id",
-            "start_date",
-            "expiration_date",
-            "participants"
+            "Creator",
+            "Id",
+            "StartDate",
+            "ExpirationDate",
+            "Participants"
     ]
 
     return (
             len(input_session) == 5 and
             all(key in valid_keys for key in input_session) and
-            validate_string(input_session['creator']) and
-            db.exists(input_session['creator'], 'Tag', 'User') and
-            isinstance(input_session['model_id'], int) and
-            db.exists(input_session['model_id'], 'ModelId', 'Model') and
-            date_is_valid(input_session['start_date']) and
-            date_is_valid(input_session['expiration_date']) and
-            session_participants_are_valid(input_session['participants'], input_session['model_id'])
+            validate_string(input_session['Creator']) and
+            db.exists(input_session['Creator'], 'Tag', 'User') and
+            isinstance(input_session['Id'], int) and
+            db.exists(input_session['Id'], 'ModelId', 'Model') and
+            date_is_valid(input_session['StartDate']) and
+            date_is_valid(input_session['ExpirationDate']) and
+            session_participants_are_valid(input_session['participants'], input_session['Id'])
     )
 
 def validate_login(input_login):
