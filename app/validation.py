@@ -89,21 +89,24 @@ def date_is_valid(date):
     except:
         return False
 
-def session_participants_are_valid(participants, model_id):
+def session_participants_are_valid(json_participants, id):
+    participants = json.loads(json_participants)
     for participant in participants:
         if not validate_string(participant) or not db.exists(participant, 'Tag', 'User'):
             return False
     
-    model_definition = json.loads( db.search(model_id, 'ModelId', 'Model')[0][3] )
+    try:
+        model_definition = json.loads(db.search(id, 'Id', 'Model')[0][3])
+    except json.JSONDecodeError:
+        return False
     model_roles = model_definition['roles']
-    
+
     for roles in participants.values():
         if not isinstance(roles, list):
             return False
         for role in roles:
             if role not in model_roles:
                 return False
-    
     return True
 
 def validate_session(input_session):
