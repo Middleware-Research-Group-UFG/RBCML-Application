@@ -143,3 +143,36 @@ def view_create_model():
                 return "Invalid Model format.", 400
         generic_response.delete_cookie('jwt')
     return generic_response
+
+@main.route('/createSession', methods=['GET', 'POST'])
+def view_create_session():
+    generic_response = redirect('/temporary_login')
+    token = request.cookies.get('jwt')
+    if token:
+        payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
+        if payload:
+            if request.method == 'GET':
+                return render_template('TEMPORARYcreateSession.html')
+            else:
+                session = request.form.to_dict(flat=True)
+                json_file = request.files.get('jsonparticipants')
+
+                try:
+                    participants = json.load(json_file)
+                    participants = json.dumps(participants)
+                except json.JSONDecodeError:
+                    return "Unable to decode participants file.", 400
+                
+                data = {
+                        "creator": payload['tag'],
+                        "id": int(session["modelid"]),
+                        "StartDate": session["startdate"],
+                        "ExpirationDate": session["expirationdate"],
+                        "participants": participants
+                    }
+
+                if validate_session(data):
+                    return db.insert(data, "Session")
+                return "Invalid Session format.", 400
+        generic_response.delete_cookie('jwt')
+    return generic_response

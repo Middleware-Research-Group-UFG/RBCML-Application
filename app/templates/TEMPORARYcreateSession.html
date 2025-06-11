@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Session</title>
+</head>
+<body>
+    <h2>Criar Sessão</h2>
+    <form action="/createSession" method="POST" enctype="multipart/form-data">
+        <label for="modelId">Model ID:</label><br>
+        <input type="number" step="1" id="modelId" name="modelid" required><br><br>
+
+        <label for="jsonParticipants">Participantes:</label><br>
+        <input type="file" id="jsonParticipants" name="jsonparticipants" accept=".json" required><br><br>
+
+        <label for="startDate">Data de início:</label>
+        <input type="datetime-local" id="startDate" name="startdate" required><br><br>
+        
+        <label for="expirationDate">Data de fim:</label>
+        <input type="datetime-local" id="expirationDate" name="expirationdate" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
