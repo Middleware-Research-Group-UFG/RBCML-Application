@@ -90,12 +90,11 @@ def date_is_valid(date):
         return False
 
 def session_participants_are_valid(json_participants, id):
-    print("Entrou")
     participants = json.loads(json_participants)
     for participant in participants:
         if not validate_string(participant) or not db.exists(participant, 'Tag', 'User'):
             return False
-    
+
     try:
         model_definition = json.loads(db.search(id, 'Id', 'Model')[0][3])
     except json.JSONDecodeError:
@@ -119,7 +118,6 @@ def validate_session(input_session):
             "Participants"
     ]
 
-    print(input_session)
     return (
             len(input_session) == 5 and
             all(key in valid_keys for key in input_session) and
