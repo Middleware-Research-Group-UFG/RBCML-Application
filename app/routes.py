@@ -164,10 +164,10 @@ def view_create_session():
                 
                 data = {
                         "Creator": payload['tag'],
-                        "Id": int(session["modelid"]),
+                        "ModelId": int(session["modelid"]),
                         "StartDate": session["startdate"],
                         "ExpirationDate": session["expirationdate"],
-                        "participants": participants
+                        "Participants": participants
                     }
 
                 if validate_session(data):

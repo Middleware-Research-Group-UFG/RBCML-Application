@@ -90,6 +90,7 @@ def date_is_valid(date):
         return False
 
 def session_participants_are_valid(json_participants, id):
+    print("Entrou")
     participants = json.loads(json_participants)
     for participant in participants:
         if not validate_string(participant) or not db.exists(participant, 'Tag', 'User'):
@@ -112,22 +113,23 @@ def session_participants_are_valid(json_participants, id):
 def validate_session(input_session):
     valid_keys = [
             "Creator",
-            "Id",
+            "ModelId",
             "StartDate",
             "ExpirationDate",
             "Participants"
     ]
 
+    print(input_session)
     return (
             len(input_session) == 5 and
             all(key in valid_keys for key in input_session) and
             validate_string(input_session['Creator']) and
             db.exists(input_session['Creator'], 'Tag', 'User') and
-            isinstance(input_session['Id'], int) and
-            db.exists(input_session['Id'], 'ModelId', 'Model') and
+            isinstance(input_session['ModelId'], int) and
+            db.exists(input_session['ModelId'], 'Id', 'Model') and
             date_is_valid(input_session['StartDate']) and
             date_is_valid(input_session['ExpirationDate']) and
-            session_participants_are_valid(input_session['participants'], input_session['Id'])
+            session_participants_are_valid(input_session['Participants'], input_session['ModelId'])
     )
 
 def validate_login(input_login):
