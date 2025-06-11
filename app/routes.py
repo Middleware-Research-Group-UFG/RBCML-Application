@@ -130,8 +130,7 @@ def view_create_model():
 
                 if validate_model(model,model_data):
                     if not db.exists(model["name"], "name", "Model"):
-                        json_file.seek(0)
-                        json_content = json_file.read().decode('utf-8')
+                        json_content = json.dumps(model_data)
 
                         data = {
                             "Name": model["name"],
@@ -141,5 +140,38 @@ def view_create_model():
                         return db.insert(data, "Model")
                     return "Model name already exists.", 400
                 return "Invalid Model format.", 400
+        generic_response.delete_cookie('jwt')
+    return generic_response
+
+@main.route('/createSession', methods=['GET', 'POST'])
+def view_create_session():
+    generic_response = redirect('/temporary_login')
+    token = request.cookies.get('jwt')
+    if token:
+        payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
+        if payload:
+            if request.method == 'GET':
+                return render_template('TEMPORARYcreateSession.html')
+            else:
+                session = request.form.to_dict(flat=True)
+                json_file = request.files.get('jsonparticipants')
+
+                try:
+                    participants = json.load(json_file)
+                    participants = json.dumps(participants)
+                except json.JSONDecodeError:
+                    return "Unable to decode participants file.", 400
+                
+                data = {
+                        "Creator": payload['tag'],
+                        "ModelId": int(session["modelid"]),
+                        "StartDate": session["startdate"],
+                        "ExpirationDate": session["expirationdate"],
+                        "Participants": participants
+                    }
+
+                if validate_session(data):
+                    return db.insert(data, "Session")
+                return "Invalid Session format.", 400
         generic_response.delete_cookie('jwt')
     return generic_response
