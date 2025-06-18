@@ -1,11 +1,14 @@
 import csv
 import random
+import json
 
+from .database import db
 from .capability import ChannelCapability, RoleCapability
 
 class RBCMLModel:
-    def __init__(self, model: str) -> None:
-        self.model = model
+    def __init__(self, model: dict) -> None:
+        self.roles = model['roles']
+        self.connections = model['connections']
 
     def channel_capability(self, connection: str):
         # Return the channel capability for the given connection in the model
@@ -62,4 +65,11 @@ class RBCMLModel:
 
 
 def get_model(session: str) -> RBCMLModel:
-    return RBCMLModel("empty_model")
+    session_data = db.search(session, "SessionID", "Sessions")[0]
+    if session_data:
+        model_id = session_data['ModelId']
+        print(f"Loading model with ID: {model_id}")
+        model_data = db.search(model_id, "Id", "Model")
+
+        model_definition = json.loads(model_data['Definition'])
+    return RBCMLModel("model_definition")
