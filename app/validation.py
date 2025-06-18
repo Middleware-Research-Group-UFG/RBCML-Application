@@ -17,7 +17,7 @@ def model_connection_is_valid(roles, key, value):
         return False
 
     key_roles = key.split("-")
-    if len(value)-1 != len(key_roles):
+    if len(value) != len(key_roles):
         return False
     if not all(role in roles for role in key_roles):
         return False
