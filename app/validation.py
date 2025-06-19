@@ -17,16 +17,20 @@ def model_connection_is_valid(roles, key, value):
         return False
 
     key_roles = key.split("-")
-    if len(value) != len(key_roles):
+    if len(value)-1 != len(key_roles):
         return False
     if not all(role in roles for role in key_roles):
         return False
     if not keys_are_sorted(key_roles):
         return False
     
-    for capabilities in value:
+    for capabilities in value[:-1]:
         if not isinstance(capabilities, list) or len(capabilities) != 8 or not all(isinstance(cap, bool) for cap in capabilities):
             return False
+        
+    channel_capabilities = value[-1]
+    if not isinstance(channel_capabilities, list) or len(channel_capabilities) != 4 or not all(isinstance(cap, bool) for cap in channel_capabilities):
+        return False
     
     return True
 
