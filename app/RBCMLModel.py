@@ -11,23 +11,10 @@ class RBCMLModel:
         self.connections = model['connections']
 
     def channel_capability(self, connection: str):
-        audio = False
-        video = False
-        string = False
-        blob = False
+        channel = self.connections[connection]
+        capabilities = channel[-1]
 
-        capabilites_list = self.connections.get(connection, None)
-        for capabilities in capabilites_list:
-            if capabilities[0] or capabilities[1]:
-                audio = True
-            if capabilities[2] or capabilities[3]:
-                video = True
-            if capabilities[4] or capabilities[5]:
-                string = True
-            if capabilities[6] or capabilities[7]:
-                blob = True
-
-        return ChannelCapability(audio, video, string, blob)
+        return ChannelCapability(capabilities[0], capabilities[1], capabilities[2], capabilities[3])
 
     def get_role_capabilities(roleName):
         with open('roles.csv', 'r') as roles:
