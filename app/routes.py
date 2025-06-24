@@ -19,8 +19,8 @@ def view_ping():
 @main.route('/')
 def view_index():
     if request.cookies.get('jwt'):
-        return redirect('/welcome')
-    return redirect('/temporary_login')
+        return redirect('/home')
+    return redirect('/newlogin')
 
 @main.route('/login', methods=['GET', 'POST'])
 def view_login():
@@ -29,6 +29,16 @@ def view_login():
     else:
         role = request.form.get('option')
         return redirect(f'/user/{role}')
+
+
+@main.route('/sessionsPage')
+def view_sessionsPage():
+    return render_template('sessionsPage.html')
+
+@main.route('/createcall')
+def view_createcall():
+    return render_template('createcall.html')
+
 
 @main.route('/user/<user>')
 def view_user(user):
@@ -58,10 +68,10 @@ def view_create_role():
         else:
            return "Role not created"
 
-@main.route('/signup', methods=['GET', 'POST'])
+@main.route('/cadastro', methods=['GET', 'POST'])
 def view_signup():
     if request.method == 'GET':
-        return render_template('TEMPORARYsignup.html')
+        return render_template('cadastro.html')
     else:
         user = request.form.to_dict(flat=True)
         if validate_user(user):
@@ -70,12 +80,12 @@ def view_signup():
             return "User already exists.", 400
         return "Invalid user.", 400
 
-@main.route('/temporary_login', methods=['GET','POST'])
+@main.route('/newlogin', methods=['GET','POST'])
 def view_temporary_login():
     if request.method == 'GET':
         if request.cookies.get('jwt'):
             return redirect('/welcome')
-        return render_template('TEMPORARYlogin.html')
+        return render_template('newlogin.html')
     else:
         login = request.form.to_dict(flat=True)
         if validate_login(login):
@@ -112,13 +122,13 @@ def view_welcome():
 
 @main.route('/createModel', methods=['GET', 'POST'])
 def view_create_model():
-    generic_response = redirect('/temporary_login')
+    generic_response = redirect('/newlogin')
     token = request.cookies.get('jwt')
     if token:
         payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
         if payload:
             if request.method == 'GET':
-                return render_template('TEMPORARYcreateModel.html')
+                return render_template('createModel.html')
             else:
                 model = request.form.to_dict(flat=True)
                 json_file = request.files.get('jsonModel')
@@ -145,7 +155,7 @@ def view_create_model():
 
 @main.route('/createSession', methods=['GET', 'POST'])
 def view_create_session():
-    generic_response = redirect('/temporary_login')
+    generic_response = redirect('/newlogin')
     token = request.cookies.get('jwt')
     if token:
         payload = token_handler.decode(token, token_handler.generate_default_decode_options(['tag']))
