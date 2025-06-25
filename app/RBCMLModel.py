@@ -30,7 +30,15 @@ class RBCMLModel:
             return capabilities
 
     def role_capability(self, role: str, connection: str):
-        cap = RBCMLModel.get_role_capabilities(role)
+        connection_roles = connection.split('-')
+        capabilities_list = self.connections[connection]
+        
+        try:
+            role_index = connection_roles.index(role)
+        except ValueError:
+            raise ValueError(f"Role '{role}' not found in connection '{connection}'")
+        
+        cap = capabilities_list[role_index]
         return RoleCapability(cap[0], cap[1], cap[2], cap[3], cap[4], cap[5], cap[6], cap[7])
     
     def get_connections(self, role: str) -> list[str]:
