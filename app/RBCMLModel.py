@@ -45,11 +45,8 @@ class RBCMLModel:
             return list(self.connections.keys())
 
     @staticmethod
-    def get_role_names():
-        with open('roles.csv', 'r') as roles:
-            reader = csv.reader(roles, delimiter=';')
-            roleNames = [data[0] for data in reader]
-            return roleNames
+    def get_role_names(self):
+        return list(self.roles)
 
     @staticmethod
     def role_exists(name):
