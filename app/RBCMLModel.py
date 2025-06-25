@@ -42,10 +42,7 @@ class RBCMLModel:
         return RoleCapability(cap[0], cap[1], cap[2], cap[3], cap[4], cap[5], cap[6], cap[7])
     
     def get_connections(self, role: str) -> list[str]:
-        connections = ["Conversa Particular", "Triagem", "Exame", "Consulta", "Diagnóstico"]
-        return [connections[0]]
-        n = random.randint(2, 4)
-        return random.sample(connections, n)
+            return list(self.connections.keys())
 
     @staticmethod
     def get_role_names():
