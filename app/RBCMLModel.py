@@ -49,14 +49,8 @@ class RBCMLModel:
         return list(self.roles)
 
     @staticmethod
-    def role_exists(name):
-        with open('roles.csv', 'a+') as roles:
-            roles.seek(0)
-            reader = csv.reader(roles, delimiter=';')
-            for data in reader:
-                if data[0] == name:
-                    return True
-            return False
+    def role_exists(self, name):
+        return name in self.roles
 
     @staticmethod
     def set_role(name, capability):
