@@ -1,62 +1,42 @@
 <!DOCTYPE html>
 
 <html>
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>HomeRBCML</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
-   </head>
-   <body>
-      <header class="nav-bar"> 
-          <div class ="nav-bar-container">
-              <div class="nav-bar-logo">
-                   <h1>RBCML</h1>       
-            </div>
-            <div class="nav-bar-models">
-                  <a href="/createModels">
-                  <h1 class = "Models">CModelos</h1>    
-                  </a> 
-            </div>
-            <div class="nav-bar-sessionPage">
-                <a href="/sessionsPage">
-                <h1 class = "Pages">Comunidade</h1>    
-                </a> 
-            </div>
-             <div class="nav-bar-login">
-                      <a href="/cadastro">
-                      <h1 class = "login">Login</h1>    
-                      </a> 
-            </div>
-            </div>
-     </header>
-     <section class="home container" id="home">
-            <div class="center">
-                  <div class="set">
-                        <button class="layouts" onclick="changeLayout('1')">
-                              <img src="{{ url_for('static', filename='images/sala-aula.jpg') }}" alt="sala-aula">
-                        </button>
-                        <button class="layouts" onclick="changeLayout('2')" >
-                              <img src="{{ url_for('static', filename='images/corte.jpg') }}" alt="sala-aula">
-                        </button>
-                        <button class="layouts" onclick="changeLayout('3')" >
-                              <img src="{{ url_for('static', filename='images/auditorio.webp') }}" alt="sala-aula">
-                        </button>
-                        <button class="layouts" onclick=""></button>
-                        <button class="layouts" onclick=""></button>
-                  </div>   
-                  <div class="create-session-container">     <!--<form action="create-session.html" method="post"> </form>-->
-                        <div class="change-layout">
-                              <p class="teste">laera</p>
-                        </div>
-                       <button class="create-session">
-                        <a href="/createcall">
-                              <h1>Criar Sessão</h1>
-                        </a>
-                       </button>
-                  </div>
-            </div>
-      </section>  
-      <script src="{{ url_for('static', filename='scripts/home.js') }}"></script>    
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeRBCML</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/log_sing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/start_call.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="nav-bar-logo">
+            <a href="/home">
+                <h1>Rooms</h1>
+            </a>
+        </div>
+        <div class="nav-bar-models">
+            <a href="/createModel">
+                <h3 class="Models">CModelos</h3>
+            </a>
+            <a href="/sessionsPage">
+                <h3 class="Pages">Comunidade</h3>
+            </a>
+            <h3 class="login" id="openPop">Login</h3>
+        </div>
+    </header>
+    <section class="slider">
+        <div class="slide">
+        </div>
+        <div class="login-popup" id="popUp">
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='scripts/log_sing.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/start_call.js') }}"></script>
+</body>
+
 </html>

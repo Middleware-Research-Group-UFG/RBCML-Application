@@ -6,27 +6,27 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>HomeRBCML</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='styles/sessionsPage.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
    </head>
    <body>
-      <header class="nav-bar"> 
-         <div class ="nav-bar-container">
-             <div class="nav-bar-logo">
-               <a href="/home">
-                  <h1 class="logo">RBCML</h1>       
-               </a>
-           </div>
-           <div class="nav-bar-sessionPage">
-               <a href="/sessionsPage">
-               <h1 class = "Pages">Comunidade</h1>    
-               </a> 
-           </div>
-            <div class="nav-bar-login">
-                     <a href="/cadastro">
-                     <h1 class = "login">Login</h1>    
-                     </a> 
-           </div>
-           </div>
-    </header>
+      <header>
+            <div class="nav-bar-logo">
+                  <a href="/home">
+                     <h1>Rooms</h1>   
+                  </a>         
+            </div>
+            <div class="nav-bar-models">
+                  <a href="/createModels">
+                  <h3 class = "Models">CModelos</h3>    
+                  </a> 
+                  <a href="/sessionsPage">
+                  <h3 class = "Pages">Comunidade</h3>    
+                  </a>
+                  <a href="/cadastro">
+                      <h3 class = "login">Login</h3>    
+                  </a>  
+            </div>
+     </header>
     <section class="sessions-container">
        <form action="" method="">
           <div class="list-sessions-container">

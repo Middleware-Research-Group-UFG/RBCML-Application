@@ -1,0 +1,42 @@
+[
+    {
+        "id": "0",
+         "roles":[
+            "Professor",
+            "Aluno"
+        ],
+        "name": "routes.py",
+        "Description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "imagem":{
+            "src": "/static/images/SalaDeAula.jpg",
+            "alt": "Sala de Aula"
+        }
+    },
+    {
+        "id": "1",
+        "roles":[
+            "Palestrante",
+            "Plateia"
+        ],
+        "name": "routes.py",
+        "Description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "imagem": {
+          "src": "/static/images/auditorio.jpg",
+          "alt": "Auditorio"
+        }
+    },
+    {
+        "id": "2",
+        "roles":[
+            "Juiz",
+            "Advogado",
+            "Reu"
+        ],
+        "name": "routes.py",
+        "Description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "imagem":{
+           "src": "/static/images/tribunal.jpg",
+           "alt": "Tribunal"
+        }
+    }
+]

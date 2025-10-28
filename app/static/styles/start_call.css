@@ -1,0 +1,79 @@
+.slide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    width: 65%;
+}
+.slides{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.slides img{
+    height: 80%;
+    width: 80%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.left{
+    position: absolute;
+    left: 1px;
+    height: 40px;
+    width: 40px;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+    border-radius: 25px;
+    background-color:  hwb(0 0% 100% / 0);
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+.right{
+    position: absolute;
+    right: 1px;
+    height: 40px;
+    width: 40px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-radius: 25px;
+    background-color: hwb(0 0% 100% / 0);
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+.create-session{
+    position: absolute;
+    bottom: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsla(0, 0%, 0%, 0.041);
+    border-radius: 20px;
+    padding: 0;
+
+}
+.create-session-button{
+    margin: 5px;
+    height: 24px;
+    padding: 0;
+    border: none;
+}
+.create-session-button h1{
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    margin: 0;
+}
