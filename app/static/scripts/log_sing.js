@@ -1,13 +1,34 @@
-const openPop = document.getElementById('openPop');
-const closePop = document.getElementById('closePop');
-const popUp = document.getElementById('popUp');
+let popUp = null;
 
-
-if (openPop) {
-    openPop.addEventListener('click', openLoginPopup);
-}
-
+// Inicializar quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', () => {
+    popUp = document.getElementById('popUp');
+    const openPop = document.getElementById('openPop');
+
+    if (openPop) {
+        openPop.addEventListener('click', (e) => {
+            e.preventDefault();
+            openLoginPopup();
+        });
+    }
+
+    // Fechar popup ao clicar no overlay
+    if (popUp) {
+        popUp.addEventListener('click', (e) => {
+            if (e.target === popUp) {
+                closePopup();
+            }
+        });
+    }
+
+    // Fechar popup com a tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popUp && popUp.classList.contains('open')) {
+            closePopup();
+        }
+    });
+
+    // Verificar se deve abrir o popup via URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('action') === 'login') {
         openLoginPopup();
@@ -18,6 +39,12 @@ function openLoginPopup() {
     if (popUp) {
         popUp.classList.add("open");
         renderLoginForm();
+    }
+}
+
+function closePopup() {
+    if (popUp) {
+        popUp.classList.remove("open");
     }
 }
 
@@ -39,12 +66,22 @@ function renderLoginForm() {
 
         </form>
     `;
-    document.getElementById('closePop').addEventListener('click', () => {
-        if (popUp) {
-            popUp.classList.remove("open");
-        }
-    });
-    document.getElementById('cadastro-button').addEventListener('click', renderCadastroForm);
+    
+    const closeBtn = document.getElementById('closePop');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closePopup();
+        });
+    }
+    
+    const cadastroBtn = document.getElementById('cadastro-button');
+    if (cadastroBtn) {
+        cadastroBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderCadastroForm();
+        });
+    }
 
     document.getElementById('login-form').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -95,12 +132,15 @@ function renderCadastroForm() {
                 <button class="submit" type="submit">Cadastrar</button>
                 <div id="cadastro-message" style="color:red;margin-top:8px;"></div>
         </form>
-    `
-    document.getElementById('closePop').addEventListener('click', () => {
-        if (popUp) {
-            popUp.classList.remove("open");
-        }
-    });
+    `;
+    
+    const closeBtn = document.getElementById('closePop');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closePopup();
+        });
+    }
     document.getElementById('cadastro-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const form = e.target;
