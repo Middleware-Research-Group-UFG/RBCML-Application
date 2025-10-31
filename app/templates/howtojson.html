@@ -5,7 +5,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>HomeRBCML</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='styles/createModel.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='styles/howtojson.css') }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
    </head>
    <body>
@@ -30,56 +30,62 @@
         </span>
     </header>
 
-    <section class="nR-title">
-        <h1>Crie seu proprio Room</h1>
-        <p>Nos envie um modelo de sala para criar o seu Room.</p>
+    <section class="jsontutorial-title">
+        <h1>Como criar um arquivo JSON?</h1>
     </section>
     
-
-    <section class="nR-description">
-        <div class="nR-description-container">
-            <div class="nR-description-l">
-                <h2>Como criar um Room?</h2>
-                <p>Para criar um Room, você precisa enviar um modelo de sala.<br>
-                O modelo de sala é um arquivo JSON que contém as informações da sala.<br><br>
-
-                O arquivo JSON deve seguir o seguinte padrão:<br><br>
-            </p>
-            <p class="json-example">
+    <section class="jsontutorial">
+        <div class="jsontutorial-description-container">
+            <h1>O que é JSON?</h1>
+            <p>
+                JSON significa JavaScript Object Notation.<br><br>
+                É uma forma de guardar informações de maneira organizada,<br> como se fosse uma tabela, mas em texto.<br><br>
+                Você pode pensar nele como uma caixinha de dados, usada por sites,<br> aplicativos e sistemas para trocar informações.<br><br>
+                Exemplo:<br><br>
+                Um aplicativo pode guardar os dados de um usuário assim:<br><br>
                 {<br>
-                    "name": "Nome da sala",<br>
-                    "description": "Descrição da sala",<br>
-                    "imagem":{<br>
-                        "src": "Imagem da sala",<br>
-                        "alt": "Alt da imagem"<br>
-                    },<br>
-                    "roles":{<br>
-                        "role1":[ "capacidade1", "capacidade2", ..., "capacidadeN" ],<br>
-                        "role2":[ "capacidade1", "capacidade2", ..., "capacidadeN" ],<br>
-                        ...<br>
-                        "roleN":[ "capacidade1", "capacidade2", ..., "capacidadeN" ],<br>
-                    } <br>
+                    "nome": "João",<br>
+                    "idade": 20,<br>
+                    "email": "joao@example.com"<br>
                 }<br><br>
             </p>
+            <h2>O que você precisa?</h2>
+            <ul>
+                <li><span>✅</span> Um bloco de notas (ou qualquer editor de texto simples)</li>
+                <li><span>✅</span> Saber salvar arquivos no computador</li>
+                <li><span>✅</span> Ter curiosidade!</li>
+            </ul>
+            <h2>Criando seu primeiro arquivo JSON</h2>
+            <h3>Passo 1 – Abra o Bloco de Notas</h3>
             <p>
-                O campo "roles" é opcional. Se não for informado, o Room será criado sem roles.<br>
-                As capacidades são as seguintes:  'send_video', 'recv_video', 'send_audio',<br> 'recv_audio', 'send_string', 'recv_string'
+                No Windows: pressione Win + R, digite notepad e aperte Enter.<br><br>
+                No Mac: abra o TextEdit.<br><br></p>
+            <h3>Passo 2 – Escreva os dados</h3>
+            <p>Escreva os dados que você quer guardar no arquivo. Por exemplo:<br><br>
+            {<br>
+                "nome": "João",<br>
+                "idade": 20,<br>
+                "email": "joao@example.com"<br>
+            }<br><br>
             </p>
-            <a href="{{ url_for('howtojson') }}">Como criar um arquivo JSON?</a>
-            </div>
-            <div class="nR-description-r">
-                <img src="{{ url_for('static', filename='images/learn.png') }}" alt="nR-description-r">
-            </div>
+            <p>
+                Explicando:<br><br>    
+                { } → significa início e fim do objeto (do “pacote de informações”)<br><br>
+                "nome", "idade", "cidade" → são os nomes das informações (chamados chaves ou keys)<br><br>
+                "Ana", 30, "São Paulo" → são os valores dessas informações (values)<br><br>
+            </p>
+            <h3>Passo 3 – Salve o arquivo</h3>
+            <ul>
+                <li> Vá em Arquivo → Salvar como...</li>
+                <li> No campo Nome do arquivo, digite: dados.json</li>
+                <li> Em Tipo, escolha Todos os arquivos (ou equivalente)</li>
+                <li> Certifique-se de que o nome termina com .json. Clique em Salvar</li>
+           
+            </ul>
+            <a href="https://www.oracle.com/br/database/what-is-json" target="_blank" rel="noopener noreferrer">Saiba mais sobre JSON</a>
         </div>
     </section>
 
-    <section class="nR-form">
-        <form action="/createModel" method="POST" enctype="multipart/form-data"> 
-                <label for="jsonFile">Insira o modelo:</label><br>
-                <input type="file" id="jsonModel" name="jsonModel" accept=".json" required>
-                <button type="submit">Submit</button>
-        </form>
-    </section>
 
 
     <section class="footer" id="suporte">

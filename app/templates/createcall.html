@@ -9,29 +9,37 @@
       <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
    </head>
    <body>
-    <header>
-            <div class="nav-bar-logo">
-                  <a href="/home">
-                     <h1>Rooms</h1>   
-                  </a>         
-            </div>
-            <div class="nav-bar-models">
-                  <a href="/createModel">
-                  <h3 class = "Models">CModelos</h3>    
-                  </a> 
-                  <a href="/sessionsPage">
-                  <h3 class = "Pages">Comunidade</h3>    
-                  </a>
-            </div>
+      <header>
+         <span class="header-container">
+ 
+         <div class="nav-bar-logo">
+             <a href="{{ url_for('home') }}">
+                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+             </a>
+         </div>
+ 
+         <div class="nav-bar-models">
+             <ul>
+                 <li><a href="../../home.html">Home</a></li>
+                 <li><a href="#rooms">Rooms</a></li>
+                 <li><a href="#comunidade">Comunidade</a></li>
+                 <li><a href="#suporte">Suporte</a></li>
+             </ul>
+         </div>
+         </span>
      </header>
+
     <section class="Role-container"> 
       <div class="roles-card" id="roles-card-container"> </div>
       <button class="iniciar-session">
-            <a href="" class="iniciar-session-button">
+            <a href="call.html" class="iniciar-session-button">
                 <h1>Iniciar Sessão</h1>
             </a>
        </button>
     </section>
+
+    
+
     <script src="{{ url_for('static', filename='scripts/roles.js') }}"></script>
     </body>
 </html>

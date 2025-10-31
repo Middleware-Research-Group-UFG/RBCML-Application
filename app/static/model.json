@@ -1,41 +1,98 @@
-[
+[   
     {
-        "id": "0",
-         "roles":[
-            "Professor",
-            "Aluno"
-        ],
-        "name": "routes.py",
-        "Description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "name": "Crie um Room",
+        "description": "Crie seu proprio Room.",
         "imagem":{
-            "src": "/static/images/SalaDeAula.jpg",
-            "alt": "Sala de Aula"
+            "src": "images/plus.png",
+            "alt": "Plus"
         }
     },
     {
-        "id": "1",
+        "name": "Sala de Aula",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "imagem":{
+            "src": "images/SalaDeAula.jpg",
+            "alt": "Sala de Aula"
+        },
+        "roles":[
+            "Professor",
+            "Aluno"
+        ]
+    },
+    {
+        "name": "Auditorio",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
         "roles":[
             "Palestrante",
             "Plateia"
         ],
-        "name": "routes.py",
-        "Description"  : "Flask route definitions for handling web requests and rendering templates.",
         "imagem": {
-          "src": "/static/images/auditorio.jpg",
+          "src": "images/auditorio.jpg",
           "alt": "Auditorio"
         }
     },
     {
-        "id": "2",
+        "name": "Tribunal",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
         "roles":[
             "Juiz",
             "Advogado",
             "Reu"
         ],
-        "name": "routes.py",
-        "Description"  : "Flask route definitions for handling web requests and rendering templates.",
         "imagem":{
-           "src": "/static/images/tribunal.jpg",
+           "src": "images/tribunal.jpg",
+           "alt": "Tribunal"
+        }
+    },
+    {
+        "name": "Tribunal",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "roles":[
+            "Juiz",
+            "Advogado",
+            "Reu"
+        ],
+        "imagem":{
+           "src": "images/tribunal.jpg",
+           "alt": "Tribunal"
+        }
+    },
+    {
+        "name": "Tribunal",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "roles":[
+            "Juiz",
+            "Advogado",
+            "Reu"
+        ],
+        "imagem":{
+           "src": "images/tribunal.jpg",
+           "alt": "Tribunal"
+        }
+    },
+    {
+        "name": "Tribunal",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "roles":[
+            "Juiz",
+            "Advogado",
+            "Reu"
+        ],
+        "imagem":{
+           "src": "images/tribunal.jpg",
+           "alt": "Tribunal"
+        }
+    },
+    {
+        "name": "Tribunal",
+        "description"  : "Flask route definitions for handling web requests and rendering templates.",
+        "roles":[
+            "Juiz",
+            "Advogado",
+            "Reu"
+        ],
+        "imagem":{
+           "src": "images/tribunal.jpg",
            "alt": "Tribunal"
         }
     }

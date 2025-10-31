@@ -1,61 +1,36 @@
-const jsonUrl = '/static/model.json';
-
-
-let slideIndex = 0; 
-let slideData = null;
+const jsonUrl = 'model.json';
 
 async function initSlider() {
     try {
         const response = await fetch(jsonUrl);
-        slideData = await response.json(); 
-        renderslider(); 
-        showNextImage(); 
-        setInterval(showNextImage, 10000); 
+        roomsData = await response.json(); 
+        renderRooms(); 
     } catch (error) {
-        console.error("Erro ao carregar os dados do slider:", error);
+        console.error("Erro ao carregar os dados das salas:", error);
     }
 }
 
-function showNextImage() {
-    if (!slideData) return;
+function renderRooms() {
+    if (!roomsData) return;
 
-    const currentSlideObject = slideData[slideIndex];
-    const imageUrl = currentSlideObject.imagem.src;
-    const altText = currentSlideObject.imagem.alt;  
-    const imgElement = document.querySelector('.slides img');
+    const roomsContainer = document.getElementById('rooms-container-id');
 
-    const ModelID = currentSlideObject.id;
-    const createCallButton = document.querySelector('.create-session-button');
-
-    if (imgElement) {
-        imgElement.src = imageUrl;
-        imgElement.alt = altText;
-    
-        if (createCallButton) {
-            createCallButton.href = `/createcall?model_id=${ModelID}`;
-        }
-
-        slideIndex++;
-        if (slideIndex >= slideData.length) {
-            slideIndex = 0;
-        }
-    }
-}
-
-
-function renderslider() {
-    document.querySelector('.slide').innerHTML = `
-    <div class="slides">
-    <button class="left" id="go.left"> < </button>
-    <img src= "" alt="">
-    <button class="right" id="go.right"> > </button>    
-        <button class="create-session">
-            <a href="/createcall" class="create-session-button">
-                <h1>Criar Sessão</h1>
+    const roomsHtml = roomsData.map((room, index) => {
+        const href = index === 0 
+            ? `static/pages/createModel.html?nome=${encodeURIComponent(room.name)}`
+            : `static/pages/createcall.html?nome=${encodeURIComponent(room.name)}`;
+        return `
+        <div class="rooms-card">
+            <a href="${href}" class="rooms-link"> 
+                <img src="${room.imagem.src}" alt="${room.imagem.alt}">
+                <p>${room.description}</p>
+                <h3>${room.name}</h3>
             </a>
-        </button>
-    </div>
-    `
+        </div>
+        `;
+    }).join('');
+    
+    roomsContainer.innerHTML = roomsHtml;
 }
 
 initSlider();
