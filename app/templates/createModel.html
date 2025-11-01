@@ -65,7 +65,7 @@
                 O campo "roles" é opcional. Se não for informado, o Room será criado sem roles.<br>
                 As capacidades são as seguintes:  'send_video', 'recv_video', 'send_audio',<br> 'recv_audio', 'send_string', 'recv_string'
             </p>
-            <a href="{{ url_for('howtojson') }}">Como criar um arquivo JSON?</a>
+            <a href="{{ url_for('main.view_howtojson') }}">Como criar um arquivo JSON?</a>
             </div>
             <div class="nR-description-r">
                 <img src="{{ url_for('static', filename='images/learn.png') }}" alt="nR-description-r">
@@ -75,9 +75,16 @@
 
     <section class="nR-form">
         <form action="/createModel" method="POST" enctype="multipart/form-data"> 
-                <label for="jsonFile">Insira o modelo:</label><br>
-                <input type="file" id="jsonModel" name="jsonModel" accept=".json" required>
-                <button type="submit">Submit</button>
+                <label for="name">Nome do Modelo:</label><br>
+                <input type="text" id="name" name="name" placeholder="Ex: Sala de Aula" maxlength="64" required><br><br>
+                
+                <label for="description">Descrição:</label><br>
+                <textarea id="description" name="description" placeholder="Descreva o modelo..." maxlength="256" rows="3" required></textarea><br><br>
+                
+                <label for="jsonModel">Arquivo JSON do Modelo:</label><br>
+                <input type="file" id="jsonModel" name="jsonModel" accept=".json" required><br><br>
+                
+                <button type="submit">Criar Modelo</button>
         </form>
     </section>
 

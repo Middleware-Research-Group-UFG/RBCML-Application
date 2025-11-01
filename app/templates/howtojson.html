@@ -4,7 +4,7 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>HomeRBCML</title>
+      <title>Como criar JSON - RBCML</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='styles/howtojson.css') }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
    </head>
@@ -13,17 +13,17 @@
         <span class="header-container">
 
         <div class="nav-bar-logo">
-            <a href="{{ url_for('home') }}">
+            <a href="{{ url_for('main.view_home') }}">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
             </a>
         </div>
 
         <div class="nav-bar-models">
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#rooms">Rooms</a></li>
-                <li><a href="#comunidade">Comunidade</a></li>
-                <li><a href="#suporte">Suporte</a></li>
+                <li><a href="{{ url_for('main.view_home') }}#home">Home</a></li>
+                <li><a href="{{ url_for('main.view_home') }}#rooms">Rooms</a></li>
+                <li><a href="{{ url_for('main.view_home') }}#comunidade">Comunidade</a></li>
+                <li><a href="{{ url_for('main.view_home') }}#suporte">Suporte</a></li>
             </ul>
         </div>
 
@@ -70,7 +70,7 @@
             </p>
             <p>
                 Explicando:<br><br>    
-                { } → significa início e fim do objeto (do “pacote de informações”)<br><br>
+                { } → significa início e fim do objeto (do "pacote de informações")<br><br>
                 "nome", "idade", "cidade" → são os nomes das informações (chamados chaves ou keys)<br><br>
                 "Ana", 30, "São Paulo" → são os valores dessas informações (values)<br><br>
             </p>

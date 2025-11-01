@@ -1,36 +1,31 @@
 async function getId() {
     const urlParams = new URLSearchParams(window.location.search);
-    const modelId = urlParams.get('nome');
+    const modelId = urlParams.get('model_id');
     
     console.log("URL params:", window.location.search);
     console.log("Model ID from URL:", modelId);
 
     if (!modelId) {
-        console.error("Nenhum 'nome' encontrado na URL.");
+        console.error("Nenhum 'model_id' encontrado na URL.");
         return null;
     }
 
     try {
-        const response = await fetch('../../model.json');
-        const models = await response.json();
+        // Buscar modelo específico da API
+        const response = await fetch(`/api/model/${modelId}`);
         
-        console.log("Models loaded:", models);
-        console.log("Looking for model with name:", modelId);
-
-        const selectedModel = models.find(model => model.name === modelId);
-
-        if (!selectedModel) {
-            console.error(`Modelo com name "${modelId}" não encontrado.`);
-            console.error("Available models:", models.map(m => m.name));
-            return null;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        console.log("Selected model:", selectedModel);
-        return selectedModel;
+        
+        const modelData = await response.json();
+        
+        console.log("Model loaded:", modelData);
+        return modelData;
 
     } catch (error) {
-        console.error("Erro ao carregar ou processar o model.json:", error);
-        return null; 
+        console.error("Erro ao carregar o modelo:", error);
+        return null;
     }
 }
 
@@ -39,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
     if (model) {
         console.log("Modelo selecionado:", model);
-        console.log("Roles do modelo:", model.roles);
+        console.log("Roles do modelo:", model.definition.roles);
     
         displayRolesInvites(model);
     }
@@ -54,15 +49,17 @@ function displayRolesInvites(model) {
     }
     
     console.log("Container found:", container);
-    console.log("Model roles:", model.roles);
     
-    if (!model.roles || model.roles.length === 0) {
+    const roles = model.definition.roles || [];
+    console.log("Model roles:", roles);
+    
+    if (!roles || roles.length === 0) {
         console.warn("Modelo não possui roles definidas.");
         container.innerHTML = '<p>Este modelo não possui roles definidas.</p>';
         return;
     }
     
-    const formsHtml = model.roles.map(roleName => {
+    const formsHtml = roles.map(roleName => {
         return `
         <form action="/invite" method="POST">
         <div class="RoleType">
@@ -71,6 +68,8 @@ function displayRolesInvites(model) {
             </div>
             <div class="email-input-container">
                 <input type="email" name="email" placeholder="Digite o email" required>
+                <input type="hidden" name="role" value="${roleName}">
+                <input type="hidden" name="model_id" value="${model.id}">
                 <button type="submit" class="circular-button">
                     <span>→</span>
                 </button>
@@ -84,8 +83,3 @@ function displayRolesInvites(model) {
     container.innerHTML = formsHtml;
     console.log("Roles displayed successfully!");
 }
-
-
-
-
-

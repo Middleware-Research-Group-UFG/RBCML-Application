@@ -31,6 +31,17 @@ def search(data, key, table, db=db_path):
         except:
             return []
 
+def search_all(table, db=db_path):
+    """Busca todos os registros de uma tabela"""
+    with sqlite3.connect(db) as connection:
+        cursor = connection.cursor()
+        query = f"""SELECT * FROM {table}"""
+        try:
+            cursor.execute(query)
+            return cursor.fetchall()
+        except:
+            return []
+
 def exists(data, key, table, db=db_path):
     return len(search(data, key, table, db)) > 0
 
