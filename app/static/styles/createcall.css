@@ -105,3 +105,94 @@ a{
     margin: 0;
     color: #ffffff;
 }
+
+
+/* Estilos para formulário de criar sessão */
+.session-form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.session-form-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.session-form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.session-form-container label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #555;
+}
+
+.session-form-container input[type="text"],
+.session-form-container input[type="datetime-local"],
+.session-form-container input[type="file"],
+.session-form-container textarea {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.session-form-container button[type="submit"] {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: linear-gradient(300deg, #f9fab7, #fdffc9, #feffb1);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.session-form-container button[type="submit"]:hover {
+    background: linear-gradient(300deg, #f0eb98, #faf9af, #f5f68e);
+    transform: translateY(-2px);
+}
+
+/* Estilos para role cards */
+.role-card {
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px;
+    min-width: 250px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.role-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.role-header h3 {
+    color: #333;
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    border-bottom: 2px solid #f9fab7;
+    padding-bottom: 10px;
+}
+
+.role-capabilities p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.role-capabilities p strong {
+    color: #333;
+}
